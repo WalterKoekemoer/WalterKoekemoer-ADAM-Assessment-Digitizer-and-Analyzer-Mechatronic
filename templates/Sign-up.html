@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='../static/bootstrap/css/Sign-up.css' />
+    <title>ADAM/Sing-Up</title>
+</head>
+<body>
+    <header>
+        <center>Sign-Up</center>
+    </header>          
+    
+    <form method="post" action="{{ url_for('dashboard') }}">
+        <center>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <label for="username">username: </label><br>
+                        <input type="text" id="username" name = "username" placeholder="hello" style="width: 100%;" value= "{{ username }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="email">email address: </label><br>
+                        <input type="email" id="email" name = "email" placeholder="email connected to google drive" style="width: 100%;" value= "{{ email }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="password">password: </label><br>
+                        <input type="password" id="password" name = "password" placeholder="keep me safe" style="width: 100%;" value= "{{ password }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" id="lecturer" name="type" value="Lecturer" />
+                        <label for="lecturer">Lecture</label><br>
+                    </td>
+                    <td>
+                        <input type="radio" id="assessor" name="type" value="Assessor" />
+                        <label for="assessor">Assessor</label><br>
+                    </td>
+                </tr>
+            </table>  
+        </center>
+        <button type="submit">Submit</button>
+        <a href="{{ url_for('home') }}" class="back">back</a>
+    </form>
+        
+    <footer>
+        <center><img src= "{{ user_image }}" alt="NWU"></center>
+    </footer>
+
+
+</body>
+</html>

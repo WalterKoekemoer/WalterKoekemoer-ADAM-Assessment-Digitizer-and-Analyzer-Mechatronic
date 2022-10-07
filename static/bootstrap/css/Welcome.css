@@ -1,0 +1,129 @@
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    overflow-y: hidden;
+    display: flexbox;
+}
+
+header {
+    z-index: 1;
+    position: fixed;
+    top:0px; 
+    left:0px;
+    width: 100%;
+
+}
+
+header>table{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color: #6C3D91;
+    color: aliceblue;
+    width: 100%;
+    table-layout: fixed;
+}
+
+article{
+    white-space: initial;
+    z-index: 0;
+    top: 15%;
+    position: absolute;
+    height: 60%;
+    width: 88%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    line-height: 40px;
+    padding-left: 5.5% ;
+    padding-right: 5.5% ;
+    font-size: x-large;
+    border-left: 2px solid #6C3D91;
+}
+
+:root {
+    --code-color: darkred;
+    --code-bg-color: #aaaaaa;
+    --code-font-size: 14px;
+    --code-line-height: 1.4;
+    --scroll-bar-color: #6C3D91;
+    --scroll-bar-bg-color: #f6f6f6;
+}
+
+pre {
+    color: var(--code-color);
+    font-size: var(--code-font-size);
+    line-height: var(--code-line-height);
+    background-color: var(--code-bg-color);
+}
+
+.code-block {
+    max-height: 100px;
+    overflow: auto;
+    padding: 8px 7px 5px 15px;
+    margin: 0px 0px 0px 0px;
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-corner { background: rgba(0,0,0,0.5); }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-bg-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--scroll-bar-bg-color);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-bar-color);
+    border-radius: 20px;
+    border: 3px solid var(--scroll-bar-bg-color);
+}
+
+.welcome {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: x-large;
+    text-align: center;
+}
+
+.option1{
+    text-align: left;
+    color: #e2e4db;
+    font-size: 11px;
+    padding-left: 20%;
+}
+
+.option1>a{
+    color: #e2e4db;
+}
+
+.option2{
+    text-align: left;
+    font-size: 11px;
+    padding-left: 20%;
+}
+
+.option2>a{
+    color: #e2e4db;
+}
+
+
+footer{
+    z-index: 1;
+    background-color: #6C3D91;
+    position: fixed;
+    bottom:0px; 
+    left:0px;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
