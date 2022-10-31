@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/lecturer.css')}}" />
+  <h1>{% block title %}Lecturer{% endblock %}</h1>
+{% endblock %}
+
+{% block header %}
+    <div class="topnav">
+      <form method="post" target="{{url_for('assessors')}}">
+        <a class="fade" type="submit" id="assessors">Assessors</a>
+      </form>
+      <form method="post" target="{{url_for('gatherings')}}">
+        <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
+        <a class="fade" type="submit" id="gatherings">Gatherings</a>
+      </form>
+      <form method="post" target="{{url_for('module_results')}}">
+        <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
+        <a class="fade" type="submit" id="module_results">Module Results</a>
+      </form>
+      <form method="post" target="{{url_for('section_results')}}">
+        <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
+        <a class="fade" type="submit" id="section_results">Section Results</a>
+      </form>
+    </div>
+{% endblock %}
+
+{% block article %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

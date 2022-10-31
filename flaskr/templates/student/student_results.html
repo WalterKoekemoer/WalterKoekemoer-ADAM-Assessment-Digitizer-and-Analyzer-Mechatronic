@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/student.css')}}" />
+  <h1>{% block title %}Student{% endblock %}</h1>
+{% endblock %}
+
+{% block header %}
+  <h1>Results</h1>
+{% endblock %}
+
+{% block article %}
+{% block student_results %}
+
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'lecturer.html' %}
+{% block article %}
+{% block assessors %}
+<form method="post">
+    {% block Assessors %}{% endblock %}
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        $("#assessors").removeClass("fade").addClass("active");
+    });
+</script>
+{% endblock %}
+{% endblock %}

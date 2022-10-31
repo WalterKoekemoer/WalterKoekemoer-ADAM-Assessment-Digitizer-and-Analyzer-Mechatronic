@@ -1,0 +1,17 @@
+{% extends 'lecturer.html' %}
+{% block article %}
+{% block section_results %}
+<form method="post">
+    {% block Results %}{% endblock %}
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        $("#section_results").removeClass("fade").addClass("active");
+    });
+</script>
+{% endblock %}
+{% endblock %}

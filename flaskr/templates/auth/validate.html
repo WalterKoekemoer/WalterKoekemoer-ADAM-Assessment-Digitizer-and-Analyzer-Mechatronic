@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/auth.css')}}" />
+  <h1>{% block title %}Validate{% endblock %}</h1>
+{% endblock %}
+
+{% block header %}
+  <h1>Validate</h1>
+{% endblock %}
+
+{% block article %}
+  <form method="post">
+    <center>
+      <table>
+        <tr>
+          <td>
+            <label for="code">code: </label><br>
+            <input type="text" id="code" name = "code" style="width: 100%;" maxlength="22" required>
+            {% block user_id %}
+            <input type="text" id="id" name = "id" hidden="hidden" style="width: 100%;" value="{{user_id}}">
+            {% endblock %}
+          </td>
+        </tr>
+      </table>  
+    </center>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

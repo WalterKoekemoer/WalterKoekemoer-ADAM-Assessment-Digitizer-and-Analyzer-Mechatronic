@@ -1,0 +1,17 @@
+{% extends 'lecturer.html' %}
+{% block article %}
+{% block gatherings %}
+<form method="post">
+    {% block Gatherings %}{% endblock %}
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        $("#gatherings").removeClass("fade").addClass("active");
+    });
+</script>
+{% endblock %}
+{% endblock %}
