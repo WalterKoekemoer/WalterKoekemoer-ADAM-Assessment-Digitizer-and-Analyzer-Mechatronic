@@ -1,0 +1,106 @@
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    overflow-y: hidden;
+    display: flexbox;
+}
+
+header {
+    z-index: 1;
+    position: fixed;
+    top:0px; 
+    left:0px;
+    width: 100%;
+
+}
+
+header>nav{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color: #6C3D91;
+    color: aliceblue;
+    width: 100%;
+    height: 50px;
+    table-layout: fixed;
+}
+
+article{
+    white-space: initial;
+    z-index: 0;
+    top: 15%;
+    position: absolute;
+    height: 60%;
+    width: 88%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    line-height: 40px;
+    padding-left: 5.5% ;
+    padding-right: 5.5% ;
+    font-size: x-large;
+}
+
+.option1{
+    text-align: left;
+    color: #e2e4db;
+    font-size: 11px;
+    padding-left: 20%;
+}
+
+.option1>a{
+    color: #e2e4db;
+}
+
+.option2{
+    text-align: left;
+    font-size: 11px;
+    padding-left: 20%;
+}
+
+.option2>a{
+    color: #e2e4db;
+}
+
+
+footer{
+    z-index: 1;
+    background-color: #6C3D91;
+    position: fixed;
+    bottom:0px; 
+    left:0px;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+nav { 
+    background: lightgray; 
+    display: flex; 
+    align-items: center; 
+    padding: 0 0.5rem; 
+}
+
+nav h1 { 
+    flex: auto; 
+    margin: 0; 
+}
+
+nav h1 a { 
+    text-decoration: none; 
+    padding: 0.25rem 0.5rem; 
+}
+
+nav ul  { 
+    display: flex; 
+    list-style: none; 
+    margin: 0; 
+    padding: 0; 
+}
+
+nav ul li a, nav ul li span, header .action { 
+    display: block; 
+    padding: 1.5rem; 
+    text-decoration: none;
+    color: white;
+}
