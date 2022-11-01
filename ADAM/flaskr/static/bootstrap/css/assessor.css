@@ -50,7 +50,7 @@ color: #502c6c;
 background-color: rgba(0, 0, 0, 0.075); }
 
 .table-wrap {
-overflow-x: scroll; }
+overflow-x: hidden; }
 
 .table {
 min-width: 1000px !important;

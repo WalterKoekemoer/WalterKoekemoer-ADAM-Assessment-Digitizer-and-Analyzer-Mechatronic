@@ -2,7 +2,6 @@
 
 {% block head %}
   <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/index.css')}}" />
-  <h1>{% block title %}Welcome{% endblock %}</h1>
 {% endblock %}
 
 {% block header %}
@@ -10,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+{% block assessors %}
   <article>
     <h1>Our Assessors</h1>
     {% for assessor in assessors %}
@@ -17,7 +17,7 @@
         <tr> <th>username</th> <th>FOS</th> </tr>
         <tr> <td><h1>{{ assessor['username'] }}</h1></td> <td><h1>{{ assessor['FOS'] }}</h1></td> </tr>
       </table>
-      {% endif %}
     </article>
   {% endfor %}
+{% endblock %}
 {% endblock %}

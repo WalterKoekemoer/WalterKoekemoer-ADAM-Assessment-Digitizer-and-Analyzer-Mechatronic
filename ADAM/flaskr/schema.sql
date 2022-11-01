@@ -19,11 +19,10 @@ CREATE TABLE gathering (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   lecturer_id INTEGER NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title VARCHAR(22) NOT NULL,
   test_date DATE NOT NULL,
   test_module VARCHAR(22) NOT NULL,
   test_total DECIMAL(3,3) NOT NULL,
-  completed TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  completed TIMESTAMP,
   FOREIGN KEY (lecturer_id) REFERENCES lecturer (id)
 );
 
@@ -34,6 +33,7 @@ CREATE TABLE participant (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   section_description VARCHAR(18) NOT NULL,
   section_total DECIMAL(3,3) NOT NULL,
+  readed_msg BOOLEAN NOT NULL DEFAULT 1,
   FOREIGN KEY (gathering_id) REFERENCES gathering (id)
 );
 
@@ -69,7 +69,7 @@ CREATE TABLE sections (
 CREATE TABLE assessor (
   id INTEGER PRIMARY KEY,
   username VARCHAR(22) NOT NULL,          
-  FOS VARCHAR(42) NOT NULL,                   --field of study
+  FOS VARCHAR(5) NOT NULL,                   --field of study
   T CHAR,                                     --period of study in years (None if M)
   M BOOLEAN NOT NULL,                         --masters?
   sts BOOLEAN NOT NULL DEFAULT 1,             --status: avalable?
@@ -84,7 +84,7 @@ CREATE TABLE student (
 );
 
 CREATE TABLE validator (
-  id INTEGER PRIMARY KEY,
+  id INTEGER NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   password VARCHAR(22) NOT NULL
 );

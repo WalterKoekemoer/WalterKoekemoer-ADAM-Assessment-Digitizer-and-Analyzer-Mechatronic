@@ -1,4 +1,4 @@
-{% extends 'assessor.html' %}
+{% extends 'assessor/assessor.html' %}
 {% block article %}
 {% block scheadules %}
   <form method="post">
@@ -9,23 +9,23 @@
                 <table class="table">
                     <thead class="thead-primary">
                         <tr>
-                            <th>TLD</th>
-                            <th>Duration</th>
-                            <th>Registration</th>
-                            <th>Renewal</th>
-                            <th>Transfer</th>
-                            <th>Register</th>
+                            <th>Module</th>
+                            <th>Lecturer</th>
+                            <th>Created</th>
+                            <th>Chat Room</th>
+                            <th>ADAM</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row" class="scope">.com</th>
-                                <td>1 Year</td>
-                                <td>$70.00</td>
-                                <td>$5.00</td>
-                                <td>$5.00</td>
-                                <td><a href="#" class="btn btn-primary">Sign Up</a></td>
-                            </tr>
+                            {% for scheadule in scheadules %}
+                                <th scope="row" class="scope">{{scheadule['Mod']}}</th>
+                                    <td>{{scheadule['Lec']}}</td>
+                                    <td>{{scheadule['Crt']}}</td>
+                                    <td><a href="{{url_for()}}" class="btn btn-primary">Enter</a></td>
+                                    <td><a href="{{url_for()}}" class="btn btn-primary">Begin</a></td>
+                                </tr>
+                            {% endfor %}
                         <tr>
                     </tbody>
                 </table>
@@ -33,6 +33,5 @@
         </div>
     </div>
   </form>
-{% endblock %}
 {% endblock %}
 {% endblock %}

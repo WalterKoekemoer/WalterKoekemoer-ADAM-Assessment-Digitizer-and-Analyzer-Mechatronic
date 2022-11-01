@@ -6,16 +6,16 @@
 {% endblock %}
 
 {% block header %}
-  <form id="change_status" method="post">
+  <form id="change_status" method="post" action="{{url_for('assessor.status')}}">
     <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
     <label for="available">status:</label>
     <select name="status" id="status">
-      { if g.user['status']}
+      {% if g.user['sts'] == 0%}
+      <option value="Available">Available</option>
+      <option value="Busy" selected>Busy</option>
+      {% else %}
         <option value="Available" selected>Available</option>
         <option value="Busy">Busy</option>
-      {% else %}
-        <option value="Available">Available</option>
-        <option value="Busy" selected>Busy</option>
       {% endif %}
     </select> 
   </form>

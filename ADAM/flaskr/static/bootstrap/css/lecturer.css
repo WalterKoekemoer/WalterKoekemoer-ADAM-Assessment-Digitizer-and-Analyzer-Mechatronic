@@ -1,3 +1,29 @@
+.topnav {
+    overflow: hidden;
+    background-color: #6C3D91;
+    display: inline-flex;
+    padding-left: 5px;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: #502c6cae;
+}
+
+.topnav a.active {
+    background-color: #502c6c;
+    color: white;
+}
+  
 table {
     border-collapse: collapse; 
 }
@@ -50,7 +76,7 @@ color: #502c6c;
 background-color: rgba(0, 0, 0, 0.075); }
 
 .table-wrap {
-overflow-x: scroll; }
+overflow-x: hidden; }
 
 .table {
 min-width: 1000px !important;

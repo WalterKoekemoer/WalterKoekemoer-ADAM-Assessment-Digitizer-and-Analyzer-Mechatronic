@@ -1,17 +1,61 @@
-{% extends 'lecturer.html' %}
+{% extends 'lecturer/lecturer.html' %}
+
 {% block article %}
-{% block assessors %}
-<form method="post">
-    {% block Assessors %}{% endblock %}
-</form>
-{% endblock %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead class="thead-primary">
+                <tr>
+                    <th>Username</th>
+                    <th>FOS</th>
+                    <th>Year</th>
+                    <th>Masters</th>
+                    <th>Completions</th>
+                    <th>Invite</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assessor in assessors %}
+                    <form method="post" action="{{url_for('lecturer.invite')}}" id="{{loop.index}}">
+                        <tr>
+                            <th scope="row" class="scope">{{assessor['username']}}</th>
+                            <td>{{assessor['FOS']}}</td>
+                            <td>{{assessor['T']}}</td>
+                            <td>{{assessor['M']}}</td>
+                            <td>{{assessor['completions']}}</td>
+                            <td>
+                                <select name="room" class="btn btn-primary" id="{{loop.index}}">
+                                    <option value="uninvite">invite</option>
+                                    {% for gathering in gatherings %}
+                                    <option value="{{gathering['id']}}">{{gathering['test_module']}} {{gathering['Created']}}</option>
+                                    {% endfor %}
+                                </select>
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class=flashes>
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                {% endwith %} 
+                            </td>
+                            
+                        </tr>
+                        <input type="text" hidden="hidden" name="id" value="{{assessor['id']}}">
+                    </form>                        
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
-{% block js %}
+{% block js_lecturer %}
 <script>
+    $("select").on('change', function(){
+        $('#' + $(this).attr('id')).submit();
+    });
     $(document).ready(function () {
-        $("#assessors").removeClass("fade").addClass("active");
+        $("#assessors a.fade").removeClass("fade").addClass("active");
     });
 </script>
-{% endblock %}
 {% endblock %}

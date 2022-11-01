@@ -1,4 +1,4 @@
-{% extends 'lecturer.html' %}
+{% extends 'lecturer/lecturer.html' %}
 {% block article %}
 {% block gatherings %}
 <form method="post">
@@ -7,11 +7,10 @@
 {% endblock %}
 {% endblock %}
 
-{% block js %}
+{% block js_lecturer %}
 <script>
     $(document).ready(function () {
-        $("#gatherings").removeClass("fade").addClass("active");
+        $("#gatherings a.fade").removeClass("fade").addClass("active");
     });
 </script>
-{% endblock %}
 {% endblock %}

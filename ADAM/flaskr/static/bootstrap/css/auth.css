@@ -15,3 +15,8 @@ input[type=text],input[type=password], select {
 table{
     width: 50%;
 }
+
+h1 {
+    display: inline-flex;
+    padding-left: 5px;
+}

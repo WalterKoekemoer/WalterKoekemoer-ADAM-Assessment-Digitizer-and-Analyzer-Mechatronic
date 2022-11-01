@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block article %}
-  <form method="post">
+  <form method="post" action="{{url_for('auth.register')}}">
     <center>
       <table>
         <tr>
@@ -19,7 +19,7 @@
             <select name="type" id="type">
               <option value="Lecturer" selected>Lecturer</option>
               <option value="Assessor">Assessor</option>
-              <option value="Student">Assessor</option>
+              <option value="Student">Student</option>
             </select>
           </td>
         </tr>
@@ -31,8 +31,8 @@
         </tr>
         <tr>
           <td colspan="2">
-            <label for="id">NWU ID: </label><br>
-            <input type="text" id="id" name = "id" placeholder="12345678" style="width: 100%;" required>
+            <label for="user_id">NWU ID: </label><br>
+            <input type="text" id="user_id" name = "user_id" placeholder="12345678" style="width: 100%;" required>
           </td>
         </tr>
         <tr>
@@ -42,17 +42,17 @@
           </td>
         </tr>
         <tr>
-        <td>
-        <div id="assessor">
+          <td>
+            <div id="assessor">
               <label for="year">Year of field:</label>
               <select name="year" id="year">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
+                <option value='1'>1</option>
+                <option value='1'>2</option>
+                <option value='1'>3</option>
+                <option value='1'>4</option>
+                <option value='1'>5</option>
+                <option value='1'>6</option>
+                <option value='1'>7</option>
               </select>
               <label for="field">Field of study:</label>
               <select name="field" id="field">
@@ -68,11 +68,20 @@
               <label for="masters">M-student:</label>
               <br>
               <input type="checkbox" name="masters" id="masters">
-        </div>
-        </td>
+            </div>
+          </td>
         </tr>
       </table>  
     </center>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %} 
     <button type="submit">Submit</button>
   </form>
 {% endblock %}
@@ -92,12 +101,18 @@
       if ($(this).val() == "Lecturer"){
         $("#assessor").hide();
         $("#username").show();
+        $("label[for='username']").show()
+        $("#username").prop('required',true);
       }else if($(this).val() == "Student"){
         $("#username").hide();
         $("#assessor").hide()
+        $("label[for='username']").hide()
+        $("#username").prop('required',false);
       }else if($(this).val() == "Assessor"){
        $("#assessor").show();
        $("#username").show();
+       $("label[for='username']").show()
+       $("#username").prop('required',true);
       }
     });
     

@@ -1,10 +1,12 @@
+from dataclasses import field
 import functools
+from types import MethodType
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from .mail_server import mail_server, Message
+from .compo.mail_server import mail, Message
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -19,63 +21,42 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 def validate():
     if request.method == 'POST':
         password = request.form['code']
-        id = int(request.form['id'])
         error = None
         
         if not password:
             error = "code not entered"
             flash(error)
-            return redirect('auth/validate.html', user_id = str(id))
+            return redirect('auth/validate.html')
 
         db = get_db()
         validate = db.execute(
-            'SELECT * FROM validator WHERE username = ? ORDER BY created DESC', (id,)
+            'SELECT * FROM validator WHERE username = ? ORDER BY created DESC', (session['user_id'],)
         ).fetchone()
 
         if np.datetime64(validate.created,"s") - np.datetime64(datetime.now(),"s") < 300:
             
-            if validate.password != password or session['id'] != id:
+            if validate.password != password:
                 error = "sorry, that is wrong..."
                 flash(error)
                 return render_template('auth/register.html')
 
             if not error:
-                username = session.get('username')
-                id = session['id']
+                id = session['user_id']
                 password = session.get('password')
-                type = session.get('type')
-                FOS = session.get('FOS')
-                T = session.get('T')
-                M = session.get('M')
                 
                 try:
-                    if type == "Assessor":
-                        if M:
-                            db.execute(
-                                "INSERT INTO assessor (id, username, password, FOS, T, M) VALUES (?, ?, ?, ?, ?, ?)",
-                                (id, username, generate_password_hash(password), FOS, '~', M),
-                            )
-                        else:
-                            db.execute(
-                                "INSERT INTO assessor (id, username, password, FOS, T, M) VALUES (?, ?, ?, ?, ?, ?)",
-                                (id, username, generate_password_hash(password), FOS, T, M),
-                            )
-                    elif type == "Lecturer":
-                        db.execute(
-                            "INSERT INTO lecturer (id, username, password) VALUES (?, ?, ?)",
-                            (id, username, generate_password_hash(password)),
-                        )
-                    elif type == "Student":
-                        db.execute(
-                            "INSERT INTO lecturer (id, username, password) VALUES (?, ?)",
-                            (id, generate_password_hash(password)),
-                        )
+                    db.execute(
+                        "INSERT INTO lecturer (id, username, password) VALUES (?, ?)",
+                        (id, generate_password_hash(password)),
+                    )
                     db.commit()
                 except db.IntegrityError:
                     error = f"User {id} is already registered."
                 else:
                     return redirect(url_for("auth.login"))
-
+        else:
+            error = "Password expired"
+            
         flash(error)
 
     return render_template('auth/register.html')
@@ -83,85 +64,136 @@ def validate():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        session['id'] = int(request.form['id'])
-        session['password'] = request.form['password']
-        session['type'] = request.form['type']
-        session['field'] = request.form['field']
-        session['year'] = request.form['year']
-        session['masters'] = request.form['masters']
-        error = None
+        username = request.form['username']
+        id = request.form['user_id']
+        password = request.form['password']
+        type = request.form['type']
+        FOS = request.form['field']
+        T = request.form['year']
+        M = None
+        if 'masters' in request.form:
+            M = request.form['masters']
 
-        if not session['username']:
+        error = None
+        if not username and type != "Student":
             error = "username is required"
-        elif not session['id']:
+        elif not id:
             error = 'NWU ID is required'
-        elif str(session['id']).__len__() != 8:
+        elif id.__len__() != 8:
             error = 'NWU ID is wrong'
-        elif str(session['id']).isnumeric():
+        elif not id.isnumeric():
             error = 'NWU ID is wrong'
-        elif not session['password']:
+        elif not password:
             error = 'Password is required'
-        
 
         if error:
             flash(error)
-            return render_template('auth/register.html')
+            return redirect(request.referrer)
 
-        db = get_db()
-        password = str(np.random.rand())[:2]
-        db.execute(
-            "INSERT INTO validator (id, password) VALUES (?, ?)",
-            (session['id'],password),
-        )
-        db.commit()
+        if not error and type != "Student":          
+            db = get_db()
+            try:
+                if type == "Assessor":
+                    if M:
+                        db.execute(
+                            "INSERT INTO assessor (id, username, password, FOS, T, M) VALUES (?, ?, ?, ?, ?, ?)",
+                            (int(id), username, generate_password_hash(password), FOS, '~', 1),
+                        )
+                    elif not M:
+                        db.execute(
+                            "INSERT INTO assessor (id, username, password, FOS, T, M) VALUES (?, ?, ?, ?, ?, ?)",
+                            (int(id), username, generate_password_hash(password), FOS, T, 0),
+                        )
+                elif type == "Lecturer":
+                    db.execute(
+                        "INSERT INTO lecturer (id, username, password) VALUES (?, ?, ?)",
+                        (int(id), username, generate_password_hash(password)),
+                    )
+                
+                db.commit()
+            except db.IntegrityError:
+                error = f"User {id} is already registered."
+            else:
+                return redirect(url_for("auth.login"))
         
-        msg = Message(
-                'ADAM',
-                sender =session['id'] + '@student.g.nwu.ac.za',
-               )
-        msg.body = 'Your verification code is ' + password
-        mail_server.send(msg)
-        return render_template('auth/validate.html', user_id = str(session['id']))
+        elif not error and type == "Student":
+            session['username'] = username
+            session['user_id'] = int(id)
+            session['password'] = password
+            session['type'] = type
+            session['field'] = FOS
+            session['year'] = T
+            if 'masters' in request.form:
+                session['masters'] = M
+
+            db = get_db()
+            password = str(np.random.rand())[2:]
+            db.execute(
+                "INSERT INTO validator (id, password) VALUES (?, ?)",
+                (session['user_id'],password),
+            )
+            db.commit()
+
+            msg = Message(
+                    'ADAM',
+                    sender = str(session['user_id']) + '@student.g.nwu.ac.za',
+                )
+            msg.body = 'Your verification code is ' + password
+            mail.send(msg)
+
+            return render_template('auth/validate.html')
+
+        flash(error)
+
+    return render_template('auth/register.html')
 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        id = int(request.form['id'])
+        id = request.form['user_id']
         password = request.form['password']
         type = request.form['type']
         db = get_db()
         error = None
 
+        if id.__len__() != 8:
+            error = 'NWU ID is wrong'
+        elif not id.isnumeric():
+            error = 'NWU ID is wrong'
+
+        if error:
+            flash(error)
+            return redirect(request.referrer)
+
         if type == "Assessor":
             user = db.execute(
-                'SELECT * FROM assessor WHERE username = ?', (id,)
+                'SELECT * FROM assessor WHERE id = ?', (int(id),)
             ).fetchone()
         elif type == "Lecturer":
             user = db.execute(
-                'SELECT * FROM lecturer WHERE username = ?', (id,)
+                'SELECT * FROM lecturer WHERE id = ?', (int(id),)
             ).fetchone()
         elif type == "Student":
             user = db.execute(
-                'SELECT * FROM student WHERE username = ?', (id,)
+                'SELECT * FROM student WHERE id = ?', (int(id),)
             ).fetchone()
 
-        if user is None:
+        if not user:
             error = 'Incorrect id'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password'
 
-        if error is None:
+        if not error:
             session.clear()
             session['user_id'] = user['id']
             session['user_type'] = type
             if type == "Assessor":
-                return redirect(url_for('scheadule'))
+                return redirect(url_for('assessor.scheadule'))
             elif type == "Lecturer":
-                return redirect(url_for('assessors'))
+                return redirect(url_for('lecturer.assessors'))
             elif type == "Student":
-                return redirect(url_for('student_results', id = session['user_id']))
+                return redirect(url_for('student.student_results'))
 
         flash(error)
 

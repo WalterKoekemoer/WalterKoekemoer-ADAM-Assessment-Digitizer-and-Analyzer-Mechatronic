@@ -2,25 +2,24 @@
 
 {% block head %}
   <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/lecturer.css')}}" />
-  <h1>{% block title %}Lecturer{% endblock %}</h1>
 {% endblock %}
 
 {% block header %}
     <div class="topnav">
-      <form method="post" target="{{url_for('assessors')}}">
-        <a class="fade" type="submit" id="assessors">Assessors</a>
+      <form method="post" action="{{url_for('lecturer.assessors')}}" id="assessors">
+        <a class="fade" onclick="document.getElementById('assessors').submit();">Assessors</a>
       </form>
-      <form method="post" target="{{url_for('gatherings')}}">
+      <form method="post" action="{{url_for('lecturer.gatherings')}}" id="gatherings">
         <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
-        <a class="fade" type="submit" id="gatherings">Gatherings</a>
+        <a class="fade" onclick="document.getElementById('gatherings').submit();">Gatherings</a>
       </form>
-      <form method="post" target="{{url_for('module_results')}}">
+      <form method="post" action="{{url_for('lecturer.module_results')}}" id="module_results">
         <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
-        <a class="fade" type="submit" id="module_results">Module Results</a>
+        <a class="fade" onclick="document.getElementById('module_results').submit();">Module Results</a>
       </form>
-      <form method="post" target="{{url_for('section_results')}}">
+      <form method="post" action="{{url_for('lecturer.section_results')}}" id="section_results">
         <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
-        <a class="fade" type="submit" id="section_results">Section Results</a>
+        <a class="fade" onclick="document.getElementById('section_results').submit();">Section Results</a>
       </form>
     </div>
 {% endblock %}
@@ -29,4 +28,5 @@
 {% endblock %}
 
 {% block js %}
+{% block js_lecturer %}{% endblock %}
 {% endblock %}

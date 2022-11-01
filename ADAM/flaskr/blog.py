@@ -10,11 +10,12 @@ bp = Blueprint('blog', __name__)
 @bp.route('/')
 def index():
     db = get_db()
-    db.execute(
-        "DELETE FROM validator WHERE timestamp < (NOW() - INTERVAL 5 MINUTE);"
-    )
+    check = db.execute(
+        "DELETE FROM validator WHERE CURRENT_TIMESTAMP > time(created,'+5 minutes');"
+    ).fetchone()
+    print(check)
     db.commit()
     assessors = db.execute(
-        'SELECT * from assessors'
+        'SELECT * from assessor',
     ).fetchall()
     return render_template('blog/index.html', assessors=assessors)

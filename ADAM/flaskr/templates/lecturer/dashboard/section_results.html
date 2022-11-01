@@ -1,4 +1,4 @@
-{% extends 'lecturer.html' %}
+{% extends 'lecturer/lecturer.html' %}
 {% block article %}
 {% block section_results %}
 <form method="post">
@@ -7,11 +7,10 @@
 {% endblock %}
 {% endblock %}
 
-{% block js %}
+{% block js_lecturer %}
 <script>
     $(document).ready(function () {
-        $("#section_results").removeClass("fade").addClass("active");
+        $("#section_results a.fade").removeClass("fade").addClass("active");
     });
 </script>
-{% endblock %}
 {% endblock %}
