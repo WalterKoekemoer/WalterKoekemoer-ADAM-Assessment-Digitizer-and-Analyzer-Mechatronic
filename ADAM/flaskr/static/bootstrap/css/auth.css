@@ -1,3 +1,22 @@
+
+
+article{
+    white-space: initial;
+    z-index: 0;
+    top: 15%;
+    position: absolute;
+    height: 60%;
+    width: 88%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    line-height: 40px;
+    padding-left: 5.5% ;
+    padding-right: 5.5% ;
+    font-size: x-large;
+}
+
 label{
     font-size: small;
 }

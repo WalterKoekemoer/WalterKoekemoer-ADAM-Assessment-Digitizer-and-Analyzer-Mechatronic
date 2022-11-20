@@ -8,16 +8,16 @@
   <h1>ADAM</h1>
 {% endblock %}
 
-{% block content %}
+{% block article %}
+<article>
 {% block assessors %}
-  <article>
     <h1>Our Assessors</h1>
     {% for assessor in assessors %}
       <table>
         <tr> <th>username</th> <th>FOS</th> </tr>
         <tr> <td><h1>{{ assessor['username'] }}</h1></td> <td><h1>{{ assessor['FOS'] }}</h1></td> </tr>
       </table>
-    </article>
   {% endfor %}
 {% endblock %}
+</article>
 {% endblock %}

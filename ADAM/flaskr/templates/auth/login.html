@@ -10,13 +10,14 @@
 {% endblock %}
 
 {% block article %}
+<article>
   <form method="post">
     <center>
       <table>
           <tr>
               <td colspan="2">
                   <label for="id">NWU ID: </label><br>
-                  <input type="text" id="user_id" name="user_id" style="width: 100%;" required>
+                  <input type="number" id="user_id" name="user_id" style="width: 100%;" required>
               </td>
           </tr>
           <tr>
@@ -39,4 +40,5 @@
     </center>
     <button type="submit" >Submit</button>
   </form>
+</article>
 {% endblock %}

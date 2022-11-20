@@ -1,0 +1,16 @@
+{% extends 'adam/adam.html' %}
+
+{% block adam_head %}
+    <h4 class="modal-title">Calibrate</h4>
+{% endblock %}
+
+{% block adam_body %}
+    <button id="calibrate">calibrate</button>
+{% endblock %}
+
+{% block adam_foot %}
+{% endblock %}
+
+{% block adam_state %}
+<script type="text/javascript" src="{{url_for('static', filename='bootstrap/js/calibrate.js')}}"></script>
+{% endblock %}

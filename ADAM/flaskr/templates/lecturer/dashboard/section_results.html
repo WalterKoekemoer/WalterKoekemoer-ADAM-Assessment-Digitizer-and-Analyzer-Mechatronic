@@ -1,10 +1,12 @@
 {% extends 'lecturer/lecturer.html' %}
 {% block article %}
+<article>
 {% block section_results %}
 <form method="post">
     {% block Results %}{% endblock %}
 </form>
 {% endblock %}
+</article>
 {% endblock %}
 
 {% block js_lecturer %}

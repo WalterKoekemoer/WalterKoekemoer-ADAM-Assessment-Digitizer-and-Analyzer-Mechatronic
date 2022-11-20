@@ -1,5 +1,6 @@
 {% extends 'assessor/assessor.html' %}
 {% block article %}
+<article>
 {% block scheadules %}
   <form method="post">
     <input type="text" id="id" name="id" hidden="hidden" value="{{g.user['id']}}">
@@ -22,8 +23,8 @@
                                 <th scope="row" class="scope">{{scheadule['Mod']}}</th>
                                     <td>{{scheadule['Lec']}}</td>
                                     <td>{{scheadule['Crt']}}</td>
-                                    <td><a href="{{url_for()}}" class="btn btn-primary">Enter</a></td>
-                                    <td><a href="{{url_for()}}" class="btn btn-primary">Begin</a></td>
+                                    <td><a href="{{url_for()}}" class="btn btn-primary">join</a></td>
+                                    <td><a href="{{url_for()}}" class="btn btn-primary">assess</a></td>
                                 </tr>
                             {% endfor %}
                         <tr>
@@ -34,4 +35,5 @@
     </div>
   </form>
 {% endblock %}
+</article>
 {% endblock %}

@@ -1,10 +1,74 @@
 {% extends 'lecturer/lecturer.html' %}
 {% block article %}
+<article>
 {% block gatherings %}
-<form method="post">
-    {% block Gatherings %}{% endblock %}
-</form>
+<div class="table-wrap">
+    <table class="table">
+        <thead class="thead-primary">
+            <tr>
+                <th>Module</th>
+                <th>Created</th>
+                <th class="mobile">Completed</th>
+                <th class="mobile">Test Date</th>
+                <th>Chat Room</th>
+                <th>ADAM</th>
+                <th class="mobile">Check Off/Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form method="post" action="{{url_for('lecturer.create')}}" enctype=multipart/form-data>
+                <tr class="mobile">
+                    <td><input type="text" placeholder="EERI 111" name="test_module" required></td>
+                    <td><input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name='file' required>
+                    </td>
+                    <td></td>
+                    <td><input type="date" name="test_date" required></td>
+                    <td></td>
+                    <td><input type="number" placeholder="test total" name="test_total" required></td>
+                    <td><button type="submit" class="btn btn-primary">create</button></td>
+                </tr>   
+            </form>  
+            
+            {% for gathering in gatherings %}
+                <tr>
+                    <th scope="row" class="scope">{{gathering['test_module']}}</th>
+                    <td>{{gathering['created']}}</td>
+                    <td class="mobile">{{gathering['completed']}}</td>
+                    <td class="mobile">{{gathering['test_date']}}</td>
+                    {% if gathering['completed'] %}
+                        <td rowspan="3"></td>
+                    {% else %}
+                    <td>
+                        <form action="{{url_for('lecturer.join')}}" method="post">
+                            <button type="submit" class="btn btn-primary">join</button>
+                            <input type="number" hidden="hidden" name="gathering_id" id="gathering_id" value="{{gathering['id']}}">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{url_for('lecturer.assess')}}" method="post">
+                            <button type="submit" class="btn btn-primary">assess</button>
+                            <input type="number" hidden="hidden" name="gathering_id" id="gathering_id" value="{{gathering['id']}}">
+                        </form>
+                    </td>
+                    <td class="mobile">
+                        <form action="{{url_for('lecturer.complete')}}" method="post">
+                            <button type="submit" class="btn btn-primary">🗸</button>
+                            <input type="number" hidden="hidden" name="gathering_id" id="gathering_id" value="{{gathering['id']}}">
+                        </form>
+                        <form action="{{url_for('lecturer.remove')}}" method="post">
+                            <button type="submit" class="btn btn-primary">✗</button>
+                            <input type="number" hidden="hidden" name="gathering_id" id="gathering_id" value="{{gathering['id']}}">
+                        </form>
+                        
+                    </td>
+                    {% endif %}
+                </tr>                      
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
+</article>
 {% endblock %}
 
 {% block js_lecturer %}

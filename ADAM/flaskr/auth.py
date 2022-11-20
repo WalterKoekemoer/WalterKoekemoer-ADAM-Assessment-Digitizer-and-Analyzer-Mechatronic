@@ -1,12 +1,10 @@
-from dataclasses import field
 import functools
-from types import MethodType
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from .compo.mail_server import mail, Message
+from .components.mail_server import mail, Message
 
 from werkzeug.security import check_password_hash, generate_password_hash
 

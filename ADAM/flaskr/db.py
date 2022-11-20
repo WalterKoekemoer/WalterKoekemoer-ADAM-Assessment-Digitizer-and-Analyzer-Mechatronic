@@ -37,10 +37,11 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
-
+    
 
 # register the app 
-# flask --app flaskr --debug run
+# flask --app flaskr --debug run --cert=adhoc --host=0.0.0.0  
+# flask --app flaskr run --cert=adhoc --host=0.0.0.0 --port=80
 
 def init_app(app):
     app.teardown_appcontext(close_db)

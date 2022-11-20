@@ -28,7 +28,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # add mail server
-    from .compo.mail_server import mail
+    from .components.mail_server import mail
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'walterkoekemoer97@gmail.com'
@@ -45,19 +45,19 @@ def create_app(test_config=None):
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
 
-    from .compo import assessor
+    from .components import assessor
     app.register_blueprint(assessor.bp)
 
-    from .compo import lecturer
+    from .components import lecturer
     app.register_blueprint(lecturer.bp)
 
-    from .compo import student
+    from .components import student
     app.register_blueprint(student.bp)
 
-    from .compo import adam
+    from .components import adam
     app.register_blueprint(adam.bp)
 
-    from .compo import room
+    from .components import room
     app.register_blueprint(room.bp)
 
     return app

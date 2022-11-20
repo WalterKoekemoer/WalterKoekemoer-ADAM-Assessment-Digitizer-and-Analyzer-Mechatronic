@@ -1,41 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>adam</title>
-    <link rel="stylesheet" href="adam.css">
-    {% block keypad_css %}{% endblock %}
-</head>
-<body>
-    <div id="UI" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-      
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-              <p>Some text in the modal.</p>
-              <video id="videoElement" width="320" height></video>
-              {% block keypad %}{% endblock %}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-      
-        </div>
+{% extends 'base.html' %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/adam.css')}}">
+  {% block keypad_css %}{% endblock %}
+{% endblock %}
+
+{% block header %}
+  <h1>ADAM</h1>
+{% endblock %}
+
+{% block article %}
+{% block availables %}
+<article>
+  <div class="dash">
+    <video autoplay id="videoElement" width="1440" height="1024" hidden="hidden"></video>
+    <h2 name="hint" id="hint">???</h2>
+    <form action="{{url_for('adam.scan')}}" method="post" class="scan" id="scan" enctype=multipart/form-data>
+      <input type=file hidden="hidden" id="file" name="file">
+    </form>
+    <canvas id="scanner" name="scanner"></canvas>
+    <div class="wrap">
+      <div class="wrap-content">
+        <label for="students">students</label>
+        <canvas id="students" name="students"></canvas>
+      </div>
+      <div class="wrap-content">
+        <label for="my_width">width</label>
+        <input type="range" name="my_width" id="my_width" min="0" max="0.5" step="0.01" value="0.38" oninput="my_width_output.value = my_width.value*100 + '%'" disabled>
+        <output id="my_width_output">38%</output>
+      </div>
+      <div class="wrap-content">
+        <label for="my_height">height</label>
+        <input type="range" name="my_height" id="my_height" min="0" max="0.1" step="0.01" value="0.05" oninput="my_height_output.value = my_height.value*100 + '%'" disabled>
+        <output id="my_height_output">5%</output>
+      </div>
+      <div class="wrap-content">
+        <label for="pos-x">pos-x</label>
+        <input type="range" name="pos_x" id="pos_x" min="0" max="1" step="0.01" value="0.39" oninput="pos_x_output.value = pos_x.value*100 + '%'" disabled>
+        <output id="pos_x_output">39%</output>
+      </div>
+      <div class="wrap-content">
+        <label for="pos-y">pos-y</label>
+        <input type="range" name="pos_y" id="pos_y" min="0" max="1" step="0.01" value="0.18" oninput="pos_y_output.value = pos_y.value*100 + '%'" disabled>
+        <output id="pos_y_output">18%</output>
+      </div>
     </div>
+    <div class="wrap">
+      <form action="{{url_for('adam.back')}}" method="post">
+        <div class="wrap-content">
+          <label for="number">identified</label>
+          <h2 name="number" id="number">???</h2>
+        </div>
+        <div class="wrap-content">
+          <label for="available">posible students</label>
+          <select name="available" class="btn btn-primary" id="available">
+            {% for available in availables %}
+            <option value="{{available}}">{{available}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="wrap-content">
+          <label for="hold">hold</label>
+          <input type="checkbox" id="hold" name="hold">     
+        </div>
+        <div class="wrap-content">
+          <button type="submit" class="btn btn-primary" id="upload">done</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="ADAM" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          {% block adam_head %}{% endblock %}
+        </div>
+        <div class="modal-body">
+          {% block adam_body %}{% endblock %}
+        </div>
+        <div class="modal-footer">
+          {% block adam_foot %}{% endblock %}
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+{% endblock %}
+{% endblock %}
 
-    {% block keypad_js %}{% endblock %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script async type="text/javascript" onload="onOpenCvReady();" src="https://docs.opencv.org/3.3.1/opencv.js"></script>
-    <script type="module" charset="utf-8" src="recorder.js"></script>
-    <script src="adam.js"></script>
-
-</body>
-</html>
+{% block js %}
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='bootstrap/js/scanner.js')}}"></script>
+  {% block adam_state %}{% endblock %}
+  <script async type="text/javascript" src="{{url_for('static', filename='bootstrap/js/opencv.js')}}"></script>
+{% endblock %}

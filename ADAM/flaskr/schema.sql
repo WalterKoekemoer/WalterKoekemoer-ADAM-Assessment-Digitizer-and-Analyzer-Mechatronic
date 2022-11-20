@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS gathering;
 DROP TABLE IF EXISTS participant;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS test;
+DROP TABLE IF EXISTS student_number;
 DROP TABLE IF EXISTS sections;
 
 DROP TABLE IF EXISTS assessor;
@@ -14,6 +15,7 @@ CREATE TABLE lecturer (
   username VARCHAR(22) NOT NULL,
   password VARCHAR(22) NOT NULL
 );
+
 
 CREATE TABLE gathering (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,15 +50,22 @@ CREATE TABLE messages (
 CREATE TABLE test (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   gathering_id INTEGER NOT NULL,
-  n1 CHAR NOT NULL,                     --firs number of student number
+  FOREIGN KEY (gathering_id) REFERENCES gathering (id)
+);
+
+
+CREATE TABLE student_number (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  n1 CHAR NOT NULL,     
   n2 CHAR NOT NULL,
   n3 CHAR NOT NULL,
   n4 CHAR NOT NULL,
   n5 CHAR NOT NULL,
   n6 CHAR NOT NULL,
   n7 CHAR NOT NULL,
-  n8 CHAR NOT NULL,                     --last number of student number
-  FOREIGN KEY (gathering_id) REFERENCES gathering (id)
+  n8 CHAR NOT NULL,  
+  test_id INTEGER NOT NULL,
+  FOREIGN KEY (test_id) REFERENCES test (id)               
 );
 
 CREATE TABLE sections (
@@ -69,11 +78,11 @@ CREATE TABLE sections (
 CREATE TABLE assessor (
   id INTEGER PRIMARY KEY,
   username VARCHAR(22) NOT NULL,          
-  FOS VARCHAR(5) NOT NULL,                   --field of study
-  T CHAR,                                     --period of study in years (None if M)
-  M BOOLEAN NOT NULL,                         --masters?
-  sts BOOLEAN NOT NULL DEFAULT 1,             --status: avalable?
-  completions INT NOT NULL DEFAULT 0,         --how many time did this person assist?             
+  FOS VARCHAR(5) NOT NULL,             
+  T CHAR,                             
+  M BOOLEAN NOT NULL,                   
+  sts BOOLEAN NOT NULL DEFAULT 1,       
+  completions INT NOT NULL DEFAULT 0,               
   password VARCHAR(22) NOT NULL
 );
 
